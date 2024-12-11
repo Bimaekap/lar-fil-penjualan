@@ -15,6 +15,17 @@ class Widgets extends BaseWidget
             Stat::make('Total Barang', Barang::query()->count())
                 ->descriptionIcon('heroicon-clipboard-document-list')
                 ->color('success'),
+
+            Stat::make('', 'Website')
+                ->descriptionIcon('heroicon-clipboard-document-list')
+                ->color('success')
+                ->extraAttributes([
+                    'class' => 'curson-pointer'
+                ])
+                ->description('Aktif')
+                ->descriptionIcon('heroicon-m-home')
+                ->url(route('website.frontend'))
+                ->openUrlInNewTab(),
         ];
     }
 }
