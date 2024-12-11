@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
-use Filament\Forms\Components\Section;
+use Filament\Tables\Actions\Action as ActionsAction;
 
 class BarangResource extends Resource
 {
@@ -89,6 +89,10 @@ class BarangResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
+                ActionsAction::make('download Pdf')
+                    ->icon('heroicon-o-rectangle-stack')
+                    ->url(fn(Barang $record) => route('barang.pdf.download', $record))
+                    ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
