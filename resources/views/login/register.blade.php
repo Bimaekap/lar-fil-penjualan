@@ -16,8 +16,9 @@
         <div class='login-container'>
             <div class='login-area'>
                 <h3>DAFTAR AKUN AUTOMOTOR</h3>
-                <form class='login-items'>
-                    <label htmlFor="name">Name</label>
+                <form class='login-items' action="{{ route('register.post') }}">
+                    @csrf
+                    <label htmlFor="name">Nama</label>
                     <input type="text" class='login' name="name" placeholder='Your name' required />
                     <label htmlFor="email">Email</label>
                     <input type="email" class='login' name="email" placeholder="your-email@gmail.com" required />
@@ -26,7 +27,7 @@
                     <input type="submit" class='login-btn' value="Register" />
                 </form>
                 <p class='p'>Sudah punya akun?
-                    <a class='a' href="index.html">Masuk</a>
+                    <a class='a' href="login.blade.php">Masuk</a>
                 </p>
 
                 <!-- <div class='social-login-container'>
