@@ -23,8 +23,7 @@
     <link href="{{ 'assets/lib/owlcarousel/assets/owl.carousel.min.css' }}" rel="stylesheet">
 
     <!-- Customized Bootstrap Stylesheet -->
-    <link href="{{ 'assets/css/style-index.css' }}" rel="stylesheet">
-    @stack('styles')
+    <link href="{{ 'assets/css/style.css' }}" rel="stylesheet">
 </head>
 
 <body>
@@ -164,9 +163,9 @@
                     </button>
                     <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
                         <div class="navbar-nav mr-auto py-0">
-                            <a href="index.html" class="nav-item nav-link active">Home</a>
-                            <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            {{-- <a href="detail.html" class="nav-item nav-link">Shop Detail</a> --}}
+                            <a href="{{ route('website.frontend') }}" class="nav-item nav-link active">Home</a>
+                            {{-- <a href="shop.html" class="nav-item nav-link">Shop</a> --}}
+                            <a href="{{ route('produk') }}" class="nav-item nav-link">Shop Detail</a>
                             {{-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i
                                         class="fa fa-angle-down mt-1"></i></a>
