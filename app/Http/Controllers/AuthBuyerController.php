@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BuyerLoginRequest;
 use App\Models\User;
 use App\Models\Buyer;
 use Illuminate\Http\Request;
@@ -23,28 +24,34 @@ class AuthBuyerController extends Controller
         return view('login.register');
     }
 
-    public function loginpost(Request $request): RedirectResponse
+    public function postlogin(BuyerLoginRequest $request): RedirectResponse
     {
-        $request->validate([
-            'email' => 'required',
-            'password' => 'required',
-        ]);
+        $request->authenticate();
 
-        $credentials = $request->only('email', 'password');
-        if (Auth::attempt($credentials)) {
-            return redirect()->intended(route('website.frontend'))
-                ->withSuccess('You have Successfully loggedin');
-        }
+        $request->session()->regenerate();
 
-        return redirect("buyer.login")->withError('Oppes! You have entered invalid credentials');
+        return redirect()->intended(route('website.frontend', absolute: false));
+        // $request->validate([
+        //     'email' => 'required',
+        //     'password' => 'required',
+        // ]);
+
+        // $credentials = $request->only('email', 'password');
+        // if ($credentials) {
+        //     return redirect()->intended(route('website.frontend'))
+        //         ->withSuccess('You have Successfully loggedin');
+        // }
+        // dd('GAGAL LOGIN');
+        // return redirect("buyer.login")->withError('Oppes! You have entered invalid credentials');
     }
 
-    public function postRegister(Request $request): RedirectResponse
+    public function postRegister(Request $request)
     {
+
         $request->validate([
-            'name' => 'required',
-            'email' => 'required|email',
-            'password' => 'required|min:6',
+            'nama' => 'required',
+            'email' => 'required',
+            'password' => 'required',
         ]);
 
         $data = $request->all();
@@ -52,23 +59,28 @@ class AuthBuyerController extends Controller
 
         Auth::login($buyer);
 
-        return redirect("buyer.login")->withSuccess('Great! You have Successfully loggedin');
+        return view('login.login');
     }
 
     public function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
+        return Buyer::create([
+            'nama' => $data['nama'],
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
+
+        return redirect("buyer.login")->withSuccess('Great! You have Successfully loggedin');
     }
 
-    public function logout(): RedirectResponse
+    public function logout(Request $request): RedirectResponse
     {
-        Session::flush();
-        Auth::logout();
+        Auth::guard('buyer')->logout();
 
-        return Redirect('login');
+        $request->session()->invalidate();
+
+        $request->session()->regenerateToken();
+
+        return redirect()->back();
     }
 }

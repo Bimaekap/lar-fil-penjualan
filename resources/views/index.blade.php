@@ -24,6 +24,7 @@
 
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{{ 'assets/css/style-index.css' }}" rel="stylesheet">
+    @stack('styles')
 </head>
 
 <body>
@@ -41,12 +42,29 @@
             <div class="col-lg-6 text-center text-lg-right">
                 <div class="d-inline-flex align-items-center">
                     <div class="btn-group">
-                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">My
-                            Account</button>
+                        @if(Auth::guard('buyer')->check())
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle"
+                            data-toggle="dropdown">{{Auth::guard('buyer')->user()->nama}}</button>
                         <div class="dropdown-menu dropdown-menu-right">
-                            <button class="dropdown-item" type="button">Sign in</button>
-                            <button class="dropdown-item" type="button">Sign up</button>
+
+                            <a href="{{ route('buyer.logout') }}" style="color: black; padding:1rem;"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                Logout
+                            </a>
+                            <form id="logout-form" action="{{ route('buyer.logout') }}" method="POST"
+                                style="display: none;">
+                                {{ csrf_field() }}
+                            </form>
                         </div>
+
+                        @else
+                        <button type="button" class="btn btn-sm btn-light dropdown-toggle" data-toggle="dropdown">Akun
+                            Saya</button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a href="{{ route('buyer.login') }}" class="dropdown-item" type="button">Login</a>
+                            <a href="{{ route('buyer.register') }}" class="dropdown-item" type="button">Register</a>
+                        </div>
+                        @endif
                     </div>
                     {{-- <div class="btn-group mx-2">
                         <button type="button" class="btn btn-sm btn-light dropdown-toggle"
@@ -89,7 +107,7 @@
                 </a>
             </div>
             <div class="col-lg-4 col-6 text-left">
-                <form action="">
+                {{-- <form action="">
                     <div class="input-group">
                         <input type="text" class="form-control" placeholder="Search for products">
                         <div class="input-group-append">
@@ -98,7 +116,7 @@
                             </span>
                         </div>
                     </div>
-                </form>
+                </form> --}}
             </div>
             <div class="col-lg-4 col-6 text-right">
                 <p class="m-0">Customer Service</p>
@@ -121,7 +139,7 @@
                 <nav class="collapse position-absolute navbar navbar-vertical navbar-light align-items-start p-0 bg-light"
                     id="navbar-vertical" style="width: calc(100% - 30px); z-index: 999;">
                     <div class="navbar-nav w-100">
-                        <div class="nav-item dropdown dropright">
+                        {{-- <div class="nav-item dropdown dropright">
                             <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Dresses <i
                                     class="fa fa-angle-right float-right mt-1"></i></a>
                             <div class="dropdown-menu position-absolute rounded-0 border-0 m-0">
@@ -129,16 +147,9 @@
                                 <a href="" class="dropdown-item">Women's Dresses</a>
                                 <a href="" class="dropdown-item">Baby's Dresses</a>
                             </div>
-                        </div>
-                        <a href="" class="nav-item nav-link">Shirts</a>
-                        <a href="" class="nav-item nav-link">Jeans</a>
-                        <a href="" class="nav-item nav-link">Swimwear</a>
-                        <a href="" class="nav-item nav-link">Sleepwear</a>
-                        <a href="" class="nav-item nav-link">Sportswear</a>
-                        <a href="" class="nav-item nav-link">Jumpsuits</a>
-                        <a href="" class="nav-item nav-link">Blazers</a>
-                        <a href="" class="nav-item nav-link">Jackets</a>
-                        <a href="" class="nav-item nav-link">Shoes</a>
+                        </div> --}}
+                        <a href="" class="nav-item nav-link">Sparepart</a>
+
                     </div>
                 </nav>
             </div>
@@ -155,15 +166,15 @@
                         <div class="navbar-nav mr-auto py-0">
                             <a href="index.html" class="nav-item nav-link active">Home</a>
                             <a href="shop.html" class="nav-item nav-link">Shop</a>
-                            <a href="detail.html" class="nav-item nav-link">Shop Detail</a>
-                            <div class="nav-item dropdown">
+                            {{-- <a href="detail.html" class="nav-item nav-link">Shop Detail</a> --}}
+                            {{-- <div class="nav-item dropdown">
                                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">Pages <i
                                         class="fa fa-angle-down mt-1"></i></a>
                                 <div class="dropdown-menu bg-primary rounded-0 border-0 m-0">
                                     <a href="cart.html" class="dropdown-item">Shopping Cart</a>
                                     <a href="checkout.html" class="dropdown-item">Checkout</a>
                                 </div>
-                            </div>
+                            </div> --}}
                             <a href="contact.html" class="nav-item nav-link">Contact</a>
                         </div>
                         <div class="navbar-nav ml-auto py-0 d-none d-lg-block">
@@ -213,28 +224,32 @@
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="{{ 'assets/img/carousel-2.jpg' }}"
+                            <img class="position-absolute w-100 h-100" src="{{ 'assets/img/banner2.JPG' }}"
                                 style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
                                     <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Women
                                         Fashion</h1>
-                                    <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet
+                                    {{-- <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna
+                                        amet
                                         lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                                    --}}
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
                                         href="#">Shop Now</a>
                                 </div>
                             </div>
                         </div>
                         <div class="carousel-item position-relative" style="height: 430px;">
-                            <img class="position-absolute w-100 h-100" src="" {{ 'assets/img/carousel-3.jpg' }}""
+                            <img class="position-absolute w-100 h-100" src="{{ 'assets/img/banner3.JPG' }}"
                                 style="object-fit: cover;">
                             <div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
                                 <div class="p-3" style="max-width: 700px;">
-                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">Kids
-                                        Fashion</h1>
-                                    <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna amet
+                                    <h1 class="display-4 text-white mb-3 animate__animated animate__fadeInDown">
+                                        Sparepart</h1>
+                                    {{-- <p class="mx-md-5 px-5 animate__animated animate__bounceIn">Lorem rebum magna
+                                        amet
                                         lorem magna erat diam stet. Sadips duo stet amet amet ndiam elitr ipsum diam</p>
+                                    --}}
                                     <a class="btn btn-outline-light py-2 px-4 mt-3 animate__animated animate__fadeInUp"
                                         href="#">Shop Now</a>
                                 </div>
@@ -245,7 +260,7 @@
             </div>
             <div class="col-lg-4">
                 <div class="product-offer mb-30" style="height: 200px;">
-                    <img class="img-fluid" src="{{ 'assets/img/offer-1.jpg' }}" alt="">
+                    <img class="img-fluid" src="{{ 'assets/img/spare1.jpeg' }}" alt="">
                     <div class="offer-text">
                         <h6 class="text-white text-uppercase">Save 20%</h6>
                         <h3 class="text-white mb-3">Special Offer</h3>
@@ -253,7 +268,7 @@
                     </div>
                 </div>
                 <div class="product-offer mb-30" style="height: 200px;">
-                    <img class="img-fluid" src="{{ 'assets/img/offer-2.jpg' }}" alt="">
+                    <img class="img-fluid" src="{{ 'assets/img/spare2.jpeg' }}" alt="">
                     <div class="offer-text">
                         <h6 class="text-white text-uppercase">Save 20%</h6>
                         <h3 class="text-white mb-3">Special Offer</h3>
@@ -699,7 +714,7 @@
 
 
     <!-- Offer Start -->
-    <div class="container-fluid pt-5 pb-3">
+    {{-- <div class="container-fluid pt-5 pb-3">
         <div class="row px-xl-5">
             <div class="col-md-6">
                 <div class="product-offer mb-30" style="height: 300px;">
@@ -722,7 +737,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- Offer End -->
 
 
@@ -734,7 +749,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-1.jpg" alt="">
+                        <img class="img-fluid w-100" src="{{ 'assets/img/spare1.jpeg' }}" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -762,7 +777,7 @@
             <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
-                        <img class="img-fluid w-100" src="img/product-2.jpg" alt="">
+                        <img class="img-fluid w-100" src="{{ 'assets/img/spare2.jpeg' }}" alt="">
                         <div class="product-action">
                             <a class="btn btn-outline-dark btn-square" href=""><i class="fa fa-shopping-cart"></i></a>
                             <a class="btn btn-outline-dark btn-square" href=""><i class="far fa-heart"></i></a>
@@ -787,7 +802,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
+            {{-- <div class="col-lg-3 col-md-4 col-sm-6 pb-1">
                 <div class="product-item bg-light mb-4">
                     <div class="product-img position-relative overflow-hidden">
                         <img class="img-fluid w-100" src="img/product-3.jpg" alt="">
@@ -954,7 +969,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
     <!-- Products End -->
