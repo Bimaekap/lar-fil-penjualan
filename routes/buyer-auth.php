@@ -11,7 +11,7 @@ Route::prefix('buyer')->middleware('guest:buyer')->group(function () {
     Route::post('/post-login', [AuthBuyerController::class, 'postlogin'])->name('login.post');
     Route::post('/post-register', [AuthBuyerController::class, 'postRegister'])->name('register.post');
 
-    Route::get('/detail-produk', [ProductController::class, 'index'])->name('produk');
+    // Route::get('/detail-produk', [ProductController::class, 'index'])->name('produk');
 });
 
 Route::prefix('buyer')->middleware('auth:buyer')->group(function () {
@@ -21,7 +21,7 @@ Route::prefix('buyer')->middleware('auth:buyer')->group(function () {
     })->name('buyer.dashboard');
 
     // Product Controller
-    Route::get('/detail-produk/{id}', [ProductController::class, 'index'])->name('produk');
+    // Route::get('/detail-produk', [ProductController::class, 'index'])->name('produk');
     // -----------------
     Route::post('/logout', [AuthBuyerController::class, 'logout'])->name('buyer.logout');
 });
