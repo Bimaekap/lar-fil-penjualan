@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use Database\Factories\BarangFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Barang extends Model
 {
+    use HasFactory;
     //
     protected $fillable = [
         'id',
@@ -15,4 +18,9 @@ class Barang extends Model
         'deskripsi',
         'gambar',
     ];
+
+    protected static function newFactory()
+    {
+        return BarangFactory::new();
+    }
 }

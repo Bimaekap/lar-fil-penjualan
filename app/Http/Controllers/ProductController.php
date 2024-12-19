@@ -10,12 +10,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Barang::get();
-        dd($products);
+        // $products = Barang::get();
+        // dd($products);
         return view('detail');
     }
 
-    public function showProduct(string $id)
+    public function showProduct()
     {
 
         return view('detail');
