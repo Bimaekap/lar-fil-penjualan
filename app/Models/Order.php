@@ -9,12 +9,17 @@ class Order extends Model
 {
     use HasFactory;
 
+    // protected $guard = 'buyer';
+
     protected $fillable = [
         'user_id',
         'username',
         'nama_barang',
         'harga',
         'jumlah',
-        'product_code'
+        'total',
+        'no_pesanan',
+        'gambar',
+        'qr_code'
     ];
 }

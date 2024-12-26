@@ -1,27 +1,26 @@
 <?php
 
-use App\Http\Controllers\AuthBuyerController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\BuyerController;
+use App\Http\Controllers\GuestController;
+use App\Http\Controllers\Buyer\Auth\LoginController;
+use App\Http\Controllers\Buyer\Auth\RegisteredController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ContactController;
 
-
-Route::prefix('buyer')->middleware('guest:buyer')->group(function () {
-    Route::get('/login', [AuthBuyerController::class, 'index'])->name('buyer.login');
-    Route::get('/register', [AuthBuyerController::class, 'register'])->name('buyer.register');
-    Route::post('/post-login', [AuthBuyerController::class, 'postlogin'])->name('login.post');
-    Route::post('/post-register', [AuthBuyerController::class, 'postRegister'])->name('register.post');
-
-    // Route::get('/detail-produk', [ProductController::class, 'index'])->name('produk');
+// !Guest
+Route::get('website', [GuestController::class, 'index'])->name('guest.index');
+Route::prefix('buyer')->middleware(['guest:buyer'])->group(function () {
+    Route::get('login', [LoginController::class, 'login'])->name('guest.login');
+    Route::get('register', [RegisteredController::class, 'register'])->name('guest.register');
+    Route::post('post-login', [LoginController::class, 'postLogin'])->name('post.login');
+    Route::post('post-register', [RegisteredController::class, 'postRegister'])->name('post.register');
 });
 
+// !Auth
 Route::prefix('buyer')->middleware('auth:buyer')->group(function () {
-
-    Route::get('/dashboard', function () {
-        return view('index');
-    })->name('buyer.dashboard');
-
-    // Product Controller
-    // Route::get('/detail-produk', [ProductController::class, 'index'])->name('produk');
-    // -----------------
-    Route::post('/logout', [AuthBuyerController::class, 'logout'])->name('buyer.logout');
+    Route::resource('buyers', BuyerController::class);
+    Route::get('cart', [CartController::class, 'index'])->name('cart');
+    Route::get('contact', [ContactController::class, 'contact'])->name('contact');
+    Route::post('logout', [LoginController::class, 'logout'])->name('post.logout');
 });

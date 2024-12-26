@@ -12,6 +12,7 @@
         "laravel/tinker": "^2.9",
         "laraveldaily/laravel-invoices": "^4.0",
         "milon/barcode": "^11.0",
+        "realrashid/sweet-alert": "^7.2",
         "simplesoftwareio/simple-qrcode": "^4.2"
     },
     "require-dev": {

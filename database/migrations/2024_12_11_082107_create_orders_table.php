@@ -18,7 +18,10 @@ return new class extends Migration
             $table->string('nama_barang');
             $table->string('harga');
             $table->string('jumlah');
-            $table->string('product_code');
+            $table->string('total');
+            $table->string('no_pesanan');
+            $table->string('gambar');
+            $table->string('qr_code');
             $table->timestamps();
         });
     }

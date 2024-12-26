@@ -29,7 +29,7 @@ class OrderFactory extends Factory
             'nama_barang' => $barang->nama,
             'harga' => $barang->harga,
             'jumlah' => rand(1, 15),
-            'product_code' =>  rand(200, 31512),
+            'no_pesanan' =>  rand(200, 31512),
         ];
     }
 }

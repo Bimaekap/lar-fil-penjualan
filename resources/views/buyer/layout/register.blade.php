@@ -16,7 +16,7 @@
         <div class='login-container'>
             <div class='login-area'>
                 <h3>DAFTAR AKUN AUTOMOTOR</h3>
-                <form class='login-items' action="{{ route('register.post') }}" method="POST">
+                <form class='login-items' action="{{ route('post.register') }}" method="POST">
                     @csrf
                     <label htmlFor="name">Nama</label>
                     <input type="text" class='login' name="nama" placeholder='Your name' required />
@@ -27,7 +27,7 @@
                     <input type="submit" class='login-btn' value="Register" />
                 </form>
                 <p class='p'>Sudah punya akun?
-                    <a class='a' href="{{ route('buyer.login') }}">Masuk</a>
+                    <a class='a' href="{{ route('guest.login') }}">Masuk</a>
 
                 </p>
 
