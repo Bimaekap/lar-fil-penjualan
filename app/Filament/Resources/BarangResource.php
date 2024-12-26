@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Filament\Infolists;
 use Filament\Infolists\Infolist;
 use Filament\Tables\Actions\Action as ActionsAction;
+use Filament\Tables\Columns\ImageColumn;
 
 class BarangResource extends Resource
 {
@@ -57,7 +58,7 @@ class BarangResource extends Resource
                     ->schema([
                         Forms\Components\Group::make()
                             ->schema([
-                                Forms\Components\Section::make('Gambar')
+                                Forms\Components\Section::make('gambar')
                                     ->schema([
                                         FileUpload::make('gambar')
                                             ->preserveFilenames()
@@ -80,7 +81,7 @@ class BarangResource extends Resource
                 Tables\Columns\TextColumn::make('harga'),
                 Tables\Columns\TextColumn::make('stok'),
                 Tables\Columns\TextColumn::make('deskripsi'),
-                Tables\Columns\ImageColumn::make('gambar')->width(100),
+                ImageColumn::make('gambar')->width(100),
             ])
             ->filters([
                 //
@@ -89,10 +90,10 @@ class BarangResource extends Resource
                 Tables\Actions\ViewAction::make(),
                 Tables\Actions\EditAction::make(),
                 Tables\Actions\DeleteAction::make(),
-                ActionsAction::make('download Pdf')
-                    ->icon('heroicon-o-rectangle-stack')
-                    ->url(fn(Barang $record) => route('barang.pdf.download', $record))
-                    ->openUrlInNewTab(),
+                // ActionsAction::make('download Pdf')
+                //     ->icon('heroicon-o-rectangle-stack')
+                //     ->url(fn(Barang $record) => route('barang.pdf.download', $record))
+                //     ->openUrlInNewTab(),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
@@ -107,7 +108,6 @@ class BarangResource extends Resource
     {
         return $infolist
             ->schema([
-
                 Infolists\Components\TextEntry::make('nama'),
                 Infolists\Components\TextEntry::make('harga'),
                 Infolists\Components\TextEntry::make('stok'),

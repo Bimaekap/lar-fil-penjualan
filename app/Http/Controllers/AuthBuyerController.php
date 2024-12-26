@@ -5,32 +5,58 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BuyerLoginRequest;
 use App\Models\User;
 use App\Models\Buyer;
+use App\userType;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
 
+use function Laravel\Prompts\alert;
+
 class AuthBuyerController extends Controller
 {
-    public function index()
+    public function login()
     {
 
         return view('login.login');
     }
 
+    public function website()
+    {
+        return view('index');
+    }
     public function register()
     {
         return view('login.register');
     }
 
-    public function postlogin(BuyerLoginRequest $request): RedirectResponse
+    public function postlogin(Request $request)
     {
-        $request->authenticate();
+        // if (User::select('usertype') === 'buyer') {
+        $credentials = $request->validate([
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+        $user = User::where('email', $request->email)->select('password')->get($request->email)->pluck('password');
+        // dd($user[0]);
+        Hash::check($request->password, $user[0]);
+        if (Auth::attempt($credentials)) {
+            // if (Auth::user()->usertype === 'buyer') {
+            // dd('berhasil login');
+            return redirect()->route('website.frontend');
+        } else {
+            dd('gagal login');
+            return redirect()->back();
+        }
 
-        $request->session()->regenerate();
+        // $request->authenticate();
 
-        return redirect()->intended(route('website.frontend', absolute: false));
+        // $request->session()->regenerate();
+
+        // return redirect()->intended(route('website.frontend', absolute: false));
+        // }
+
         // $request->validate([
         //     'email' => 'required',
         //     'password' => 'required',
@@ -49,7 +75,7 @@ class AuthBuyerController extends Controller
     {
 
         $request->validate([
-            'nama' => 'required',
+            'name' => 'required',
             'email' => 'required',
             'password' => 'required',
         ]);
@@ -58,29 +84,34 @@ class AuthBuyerController extends Controller
         $buyer = $this->create($data);
 
         Auth::login($buyer);
-
+        // dd('ok');
         return view('login.login');
     }
 
     public function create(array $data)
     {
-        return Buyer::create([
-            'nama' => $data['nama'],
+        return User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
+            'usertype' => userType::buyer->value,
             'password' => Hash::make($data['password'])
         ]);
 
         return redirect("buyer.login")->withSuccess('Great! You have Successfully loggedin');
     }
 
-    public function logout(Request $request): RedirectResponse
+    public function logout(Request $request)
     {
-        Auth::guard('buyer')->logout();
+        // dd('keluar');
+        if (Auth::user()->usertype === 'buyer') {
+            Auth::logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        $request->session()->regenerateToken();
+            $request->session()->regenerateToken();
+        }
 
-        return redirect()->back();
+
+        return redirect()->route('website.frontend');
     }
 }
